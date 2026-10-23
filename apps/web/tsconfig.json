@@ -8,7 +8,12 @@
     "strict": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true
+    "baseUrl": ".",
+    "paths": {
+      "@birthub/contracts": ["../../packages/contracts/src/index.ts"],
+      "@birthub/design-system": ["../../packages/design-system/src/index.ts"],
+      "@birthub/design-system/*": ["../../packages/design-system/src/*"]
+    }
   },
   "include": ["src", "vite.config.ts"]
 }
