@@ -8,7 +8,10 @@
     "dev:api": "npm run dev --workspace @birthub/api",
     "build": "npm run build --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present",
+    "docker:up": "docker compose -f infra/local/docker-compose.yml up -d",
+    "docker:down": "docker compose -f infra/local/docker-compose.yml down",
+    "validate:blueprint": "python scripts/validate_blueprint.py"
   },
   "engines": {
     "node": ">=22"
