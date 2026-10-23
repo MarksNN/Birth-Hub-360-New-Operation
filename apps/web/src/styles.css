@@ -1,0 +1,37 @@
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  color: #f5f7ff;
+  background: #090d16;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; }
+
+.app {
+  min-height: 100vh;
+  padding: clamp(32px, 8vw, 100px);
+}
+
+.eyebrow {
+  color: #22d3ee;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+h1 {
+  font-size: clamp(40px, 7vw, 76px);
+  margin-bottom: 12px;
+}
+
+p { color: #b9c2d6; }
+
+.panel {
+  max-width: 750px;
+  margin-top: 48px;
+  padding: 32px;
+  border: 1px solid #293346;
+  border-radius: 18px;
+  background: #111827;
+}
