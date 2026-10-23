@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/health.test.ts"
+    "test": "tsx --test tests/health.test.ts tests/identity.test.ts"
   },
   "dependencies": {
     "@birthub/contracts": "*",
