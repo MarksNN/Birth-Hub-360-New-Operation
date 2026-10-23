@@ -1,0 +1,162 @@
+{
+  "project": "Birthub 360 Full Operation",
+  "version": "1.0",
+  "created_at": "2026-10-23",
+  "status": "BLUEPRINT",
+  "waves": [
+    {
+      "id": "W00",
+      "name": "Estratégia e discovery",
+      "priority": "P0",
+      "sequence": 1,
+      "owner": "Produto",
+      "objective": "Definir ICP, personas, jornadas, JTBD, proposta de valor, riscos e north-star",
+      "deliverables": "Entrevistas e mapa de problemas; jornadas; scorecard de valor; critérios de MVP",
+      "acceptance_gate": "Problema e ICP validados com clientes; fluxos priorizados; métricas e hipóteses documentadas",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W01",
+      "name": "Fundação de engenharia",
+      "priority": "P0",
+      "sequence": 2,
+      "owner": "Plataforma",
+      "objective": "Monorepo, CI, ADRs, versionamento, ambientes isolados, observabilidade mínima",
+      "deliverables": "Pipelines, templates PR, contratos, comandos padronizados, IaC inicial",
+      "acceptance_gate": "CI de PR verde no SHA; sem segredo no git; rollback de deploy demonstrado",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W02",
+      "name": "Identidade e isolamento",
+      "priority": "P0",
+      "sequence": 3,
+      "owner": "Segurança e Dados",
+      "objective": "Org/tenant, login, membership, RBAC, RLS, auditoria, consentimento e limites",
+      "deliverables": "Schema seguro, auth, grants, testes negativos cross-tenant, logs imutáveis",
+      "acceptance_gate": "Testes de isolamento sem bypass; cada endpoint com autorização explícita",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W03",
+      "name": "Design system e workspace",
+      "priority": "P0",
+      "sequence": 4,
+      "owner": "Produto/UX",
+      "objective": "Marca neon controlada, tokens, app shell, acessibilidade, onboarding",
+      "deliverables": "Componentes, navegação, telas principais, documentação de design",
+      "acceptance_gate": "WCAG 2.2 AA em fluxos críticos; teclado/leitor de tela; UX testada",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W04",
+      "name": "CRM operacional",
+      "priority": "P0",
+      "sequence": 5,
+      "owner": "CRM",
+      "objective": "Empresas, contatos, leads, oportunidades, pipeline, atividades e histórico",
+      "deliverables": "CRUD, filtros, visões, auditoria, comentários, ownership, importação",
+      "acceptance_gate": "Fluxo lead → oportunidade → atividade → fechamento funciona E2E",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W05",
+      "name": "Integrações e sincronização",
+      "priority": "P0",
+      "sequence": 6,
+      "owner": "Integrações",
+      "objective": "Bitrix24 primeiro, conectores, identidade externa, outbox e reconciliação",
+      "deliverables": "Sync incremental, retry/idempotência, dead-letter, webhook, reconciliação",
+      "acceptance_gate": "Sem duplicação em replay; escopo de tenant; conflitos rastreados e resolvíveis",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W06",
+      "name": "Inteligência comercial",
+      "priority": "P1",
+      "sequence": 7,
+      "owner": "Dados e IA",
+      "objective": "ICP Fit, sinais, riscos, priorização, qualidade de dados, previsibilidade",
+      "deliverables": "Pontuações explicáveis, proveniência, radar, métricas operacionais",
+      "acceptance_gate": "Precisão/recall e cobertura com dataset rotulado; sem promessas infundadas",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W07",
+      "name": "Copiloto e agentes seguros",
+      "priority": "P1",
+      "sequence": 8,
+      "owner": "IA e Governança",
+      "objective": "Gateway multi-modelo, tool registry, agentes Radar/Research/Sales/Executor, aprovações",
+      "deliverables": "Orquestrador, execução observável, evals, custos, quotas, auditoria",
+      "acceptance_gate": "Ações externas só após política/aprovação; testes de injeção e replay",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W08",
+      "name": "Automações e engajamento",
+      "priority": "P1",
+      "sequence": 9,
+      "owner": "Operações Comerciais",
+      "objective": "Cadências, inbox, notificações, geração de propostas, voz em piloto",
+      "deliverables": "Workflow builder controlado, templates, preferências, opt-out",
+      "acceptance_gate": "Consentimento validado; stop/opt-out; rate limit; trilhas e cancelamento",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W09",
+      "name": "RevOps e monetização",
+      "priority": "P1",
+      "sequence": 10,
+      "owner": "RevOps/Financeiro",
+      "objective": "Dashboards executivos, forecasting, entitlement, planos, medição de consumo",
+      "deliverables": "Forecast com intervalos, ledger de custos IA, billing e cotas",
+      "acceptance_gate": "Cálculo reconciliado; faturamento idempotente; dados segregados",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W10",
+      "name": "Segurança e confiabilidade avançadas",
+      "priority": "P0",
+      "sequence": 11,
+      "owner": "Segurança/SRE",
+      "objective": "DR, backups, testes de carga, observabilidade, auditoria de supply chain",
+      "deliverables": "Runbooks, restore drill, threat model, pentest, dependências",
+      "acceptance_gate": "Restore medido; SLOs validados; zero achados críticos abertos",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W11",
+      "name": "Pilotos controlados",
+      "priority": "P0",
+      "sequence": 12,
+      "owner": "Produto/CS",
+      "objective": "Piloto em clientes reais, telemetria, feedback, migração assistida",
+      "deliverables": "Relatórios de adoção, erros, valor gerado, plano de conversão",
+      "acceptance_gate": "Primeiro valor comprovado; incidentes triados; retenção inicial acompanhada",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W12",
+      "name": "GA Full Operation",
+      "priority": "P0",
+      "sequence": 13,
+      "owner": "Release",
+      "objective": "Habilitação gradual, readiness go/no-go, billing, suporte e operação",
+      "deliverables": "Release checklist, contratos, suporte, runbooks, rollback",
+      "acceptance_gate": "Todos gates obrigatórios verdes no SHA de release; plano de reversão",
+      "status": "PLANEJADA"
+    },
+    {
+      "id": "W13",
+      "name": "Expansão enterprise",
+      "priority": "P2",
+      "sequence": 14,
+      "owner": "Produto/Plataforma",
+      "objective": "Mobile offline, voice advanced, marketplace, personalização e serviços separados sob demanda",
+      "deliverables": "Roadmap fundamentado em dados e custos reais",
+      "acceptance_gate": "Só iniciar com evidência de demanda e métricas sustentáveis",
+      "status": "PLANEJADA"
+    }
+  ]
+}

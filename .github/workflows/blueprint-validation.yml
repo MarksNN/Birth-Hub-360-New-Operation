@@ -1,0 +1,16 @@
+name: Blueprint Validation
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate-blueprint:
+    name: Validate blueprint only
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify blueprint integrity
+        run: python3 scripts/validate_blueprint.py
