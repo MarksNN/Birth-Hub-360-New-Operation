@@ -41,49 +41,6 @@ export const identityRoutes: FastifyPluginAsync<{ identityService: IdentityServi
     });
   });
 
-  // 2. Hook de Autenticação e Resolução de Tenant (Fail-Closed)
-  fastify.addHook("preHandler", async (request: FastifyRequest, reply: FastifyReply) => {
-    // Permitir rotas públicas
-    if (request.url.startsWith("/api/v1/auth/login") || request.url === "/health") {
-      return;
-    }
-
-    const authHeader = request.headers.authorization;
-    const tenantHeader = request.headers["x-tenant-id"] as string | undefined;
-
-    if (!authHeader && !tenantHeader) {
-      return reply.status(401).send({
-        success: false,
-        error: { code: "AUTH_REQUIRED", message: "Cabeçalho de autorização ou x-tenant-id obrigatório" }
-      });
-    }
-
-    if (authHeader && authHeader.startsWith("Bearer ")) {
-      const token = authHeader.replace("Bearer ", "").trim();
-      const session = identityService.getSession(token);
-
-      if (!session) {
-        return reply.status(401).send({
-          success: false,
-          error: { code: "INVALID_OR_EXPIRED_TOKEN", message: "Token de sessão inválido ou expirado" }
-        });
-      }
-
-      request.tenant = session.tenant;
-      request.user = session.user;
-    } else if (tenantHeader) {
-      // Suporte a API Keys / Service accounts com validação de formato
-      request.tenant = { id: tenantHeader, name: `Org-${tenantHeader}`, slug: tenantHeader };
-      request.user = {
-        id: (request.headers["x-user-id"] as string) || "service-account",
-        tenantId: tenantHeader,
-        email: "service@internal.local",
-        name: "Service Account",
-        role: "integration_service"
-      };
-    }
-  });
-
   // Função utilitária de autorização RBAC
   function checkRole(request: FastifyRequest, reply: FastifyReply, allowedRoles: UserRole[]) {
     if (!request.user || !allowedRoles.includes(request.user.role)) {
@@ -99,21 +56,21 @@ export const identityRoutes: FastifyPluginAsync<{ identityService: IdentityServi
     return true;
   }
 
-  // 3. Obter dados da organização atual
+  // 2. Obter dados da organização atual
   fastify.get("/organizations/me", async (request: FastifyRequest, reply: FastifyReply) => {
     if (!request.tenant) return reply.status(401).send();
     const org = identityService.getOrganization(request.tenant.id, request.tenant.id);
     return { success: true, data: org };
   });
 
-  // 4. Listar membros da organização
+  // 3. Listar membros da organização
   fastify.get("/organizations/members", async (request: FastifyRequest, reply: FastifyReply) => {
     if (!request.tenant) return reply.status(401).send();
     const members = identityService.getMembers(request.tenant.id);
     return { success: true, data: members };
   });
 
-  // 5. Adicionar membro (Exige papel owner ou admin)
+  // 4. Adicionar membro (Exige papel owner ou admin)
   fastify.post("/organizations/members", async (request: FastifyRequest, reply: FastifyReply) => {
     if (!checkRole(request, reply, ["owner", "admin"])) return;
     if (!request.tenant || !request.user) return;
@@ -135,7 +92,7 @@ export const identityRoutes: FastifyPluginAsync<{ identityService: IdentityServi
     return reply.status(201).send({ success: true, data: newMember });
   });
 
-  // 6. Consultar logs de auditoria (Exige papel owner ou admin)
+  // 5. Consultar logs de auditoria (Exige papel owner ou admin)
   fastify.get("/audit/logs", async (request: FastifyRequest, reply: FastifyReply) => {
     if (!checkRole(request, reply, ["owner", "admin"])) return;
     if (!request.tenant) return;
@@ -144,7 +101,7 @@ export const identityRoutes: FastifyPluginAsync<{ identityService: IdentityServi
     return { success: true, data: logs };
   });
 
-  // 7. Rota de teste contra vazamento cross-tenant
+  // 6. Rota de teste contra vazamento cross-tenant
   fastify.get<{ Params: { targetTenantId: string } }>(
     "/tenants/:targetTenantId/data",
     async (request, reply) => {
