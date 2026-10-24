@@ -78,7 +78,7 @@ export class CrmService {
 
   public createCompany(
     tenantId: TenantId,
-    data: { name: string; domain?: string; industry?: string; employeeCount?: number; source?: string }
+    data: { name: string; domain?: string; industry?: string; employeeCount?: number; source?: string; externalId?: string }
   ): Company {
     const id = `comp_${randomUUID()}`;
     const company: Company = {
@@ -89,6 +89,7 @@ export class CrmService {
       industry: data.industry,
       employeeCount: data.employeeCount,
       source: data.source ?? "manual",
+      externalId: data.externalId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -115,7 +116,7 @@ export class CrmService {
 
   public createContact(
     tenantId: TenantId,
-    data: { companyId?: string; name: string; email?: string; phone?: string; title?: string; source?: string }
+    data: { companyId?: string; name: string; email?: string; phone?: string; title?: string; source?: string; externalId?: string }
   ): Contact {
     if (data.companyId) {
       // Valida se a empresa pertence ao mesmo tenant
@@ -132,6 +133,7 @@ export class CrmService {
       phone: data.phone,
       title: data.title,
       source: data.source ?? "manual",
+      externalId: data.externalId,
       createdAt: new Date().toISOString()
     };
     this.contacts.set(id, contact);
@@ -161,6 +163,7 @@ export class CrmService {
       currency?: string;
       stage?: DealStage;
       source?: string;
+      externalId?: string;
     }
   ): Deal {
     if (data.companyId) this.getCompany(tenantId, data.companyId);
@@ -180,6 +183,7 @@ export class CrmService {
       isStagnant: false,
       lastActivityAt: new Date().toISOString(),
       source: data.source ?? "manual",
+      externalId: data.externalId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };

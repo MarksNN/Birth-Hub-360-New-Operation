@@ -6,6 +6,8 @@ import { identityRoutes } from "./modules/identity/identity.routes.js";
 import { createAuthHook } from "./modules/identity/auth.hook.js";
 import { CrmService } from "./modules/crm/crm.service.js";
 import { crmRoutes } from "./modules/crm/crm.routes.js";
+import { IntegrationsService } from "./modules/integrations/integrations.service.js";
+import { integrationsRoutes } from "./modules/integrations/integrations.routes.js";
 
 const START_TIME = Date.now();
 
@@ -16,6 +18,7 @@ export function createApp() {
 
   const identityService = new IdentityService();
   const crmService = new CrmService();
+  const integrationsService = new IntegrationsService(crmService);
 
   app.register(cors, {
     origin: process.env.WEB_ORIGIN ?? "http://localhost:5173",
@@ -39,6 +42,7 @@ export function createApp() {
       api.addHook("preHandler", createAuthHook(identityService));
       api.register(identityRoutes, { identityService });
       api.register(crmRoutes, { crmService });
+      api.register(integrationsRoutes, { integrationsService });
     },
     { prefix: "/api/v1" }
   );

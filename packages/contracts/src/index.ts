@@ -157,17 +157,89 @@ export interface AgentRun {
 }
 
 // ==========================================
-// Integrações e Sincronização
+// Integrações e Sincronização (W05)
 // ==========================================
+
+export type IntegrationProvider = "bitrix24" | "webhook_custom" | "apollo" | "cnpj_places";
 
 export interface ExternalIntegration {
   id: string;
   tenantId: TenantId;
-  provider: "bitrix24" | "webhook_custom";
+  provider: IntegrationProvider;
   status: "active" | "paused" | "error";
   lastSyncAt?: string;
   settings: Record<string, unknown>;
   createdAt: string;
+}
+
+export interface ExternalIdentity {
+  id: string;
+  tenantId: TenantId;
+  provider: IntegrationProvider;
+  entityType: "company" | "contact" | "deal" | "task";
+  localId: string;
+  externalId: string;
+  syncVersion: number;
+  lastSyncedAt: string;
+  metadata?: Record<string, unknown>;
+}
+
+export type OutboxStatus = "pending" | "processed" | "failed" | "dead_letter";
+
+export interface OutboxEvent {
+  id: string;
+  tenantId: TenantId;
+  eventType: string;
+  aggregateType: "company" | "contact" | "deal" | "task" | "integration";
+  aggregateId: string;
+  payload: Record<string, unknown>;
+  status: OutboxStatus;
+  retryCount: number;
+  maxRetries: number;
+  idempotencyKey: string;
+  lastError?: string;
+  createdAt: string;
+  processedAt?: string;
+}
+
+export interface SyncCursor {
+  id: string;
+  tenantId: TenantId;
+  provider: IntegrationProvider;
+  entityType: string;
+  cursorValue: string;
+  updatedAt: string;
+}
+
+export type ConflictResolution = "pending" | "keep_local" | "overwrite_with_external" | "manual_merge";
+
+export interface SyncConflict {
+  id: string;
+  tenantId: TenantId;
+  provider: IntegrationProvider;
+  entityType: "company" | "contact" | "deal" | "task";
+  localId: string;
+  externalId: string;
+  fieldName: string;
+  localValue: unknown;
+  externalValue: unknown;
+  resolution: ConflictResolution;
+  resolvedBy?: UserId;
+  resolvedAt?: string;
+  createdAt: string;
+}
+
+export interface SyncResult {
+  syncRunId: string;
+  tenantId: TenantId;
+  provider: IntegrationProvider;
+  processed: number;
+  created: number;
+  updated: number;
+  conflicts: number;
+  errors: number;
+  status: "completed" | "completed_with_conflicts" | "failed";
+  cursor?: string;
 }
 
 // ==========================================
