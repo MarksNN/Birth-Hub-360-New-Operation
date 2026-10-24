@@ -469,6 +469,46 @@ export interface ApiHealth {
   timestamp: string;
 }
 
+// ==========================================
+// Confiabilidade, Observabilidade e SLOs (W10)
+// ==========================================
+
+export interface ServiceSloMetric {
+  name: string;
+  targetPercent: number;
+  currentPercent: number;
+  errorBudgetMinutes: number;
+  errorBudgetRemainingMinutes: number;
+  status: "healthy" | "degraded" | "breached";
+}
+
+export interface SystemSloReport {
+  timestamp: string;
+  period: string;
+  uptimePercent: number;
+  latencyP95Ms: number;
+  errorRatePercent: number;
+  slos: ServiceSloMetric[];
+}
+
+export interface BackupRestoreDrillResult {
+  drillId: string;
+  targetDatabase: string;
+  backupSnapshotSha256: string;
+  backupTimestamp: string;
+  restoreStartedAt: string;
+  restoreCompletedAt: string;
+  measuredRtoSeconds: number;
+  measuredRpoMinutes: number;
+  status: "verified_success" | "checksum_mismatch" | "failed";
+  recordsVerified: {
+    tenants: number;
+    deals: number;
+    auditLogs: number;
+    invoices: number;
+  };
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;

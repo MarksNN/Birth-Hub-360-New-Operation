@@ -16,6 +16,8 @@ import { AutomationsService } from "./modules/automations/automations.service.js
 import { automationsRoutes } from "./modules/automations/automations.routes.js";
 import { RevOpsService } from "./modules/revops/revops.service.js";
 import { revopsRoutes } from "./modules/revops/revops.routes.js";
+import { ReliabilityService } from "./modules/reliability/reliability.service.js";
+import { reliabilityRoutes } from "./modules/reliability/reliability.routes.js";
 
 const START_TIME = Date.now();
 
@@ -31,10 +33,18 @@ export function createApp() {
   const copilotService = new CopilotService();
   const automationsService = new AutomationsService(crmService);
   const revopsService = new RevOpsService(crmService);
+  const reliabilityService = new ReliabilityService();
 
   app.register(cors, {
     origin: process.env.WEB_ORIGIN ?? "http://localhost:5173",
     credentials: true
+  });
+
+  // Métricas de latência para SLO
+  app.addHook("onResponse", async (request, reply) => {
+    const elapsed = reply.elapsedTime;
+    const isError = reply.statusCode >= 500;
+    reliabilityService.recordLatency(elapsed, isError);
   });
 
   app.get("/health", async (): Promise<ApiHealth> => {
@@ -45,6 +55,18 @@ export function createApp() {
       uptimeSeconds: Math.floor((Date.now() - START_TIME) / 1000),
       environment: process.env.NODE_ENV ?? "development",
       timestamp: new Date().toISOString()
+    };
+  });
+
+  // Probes de confiabilidade desprotegidos para monitoramento
+  app.get("/health/ready", async () => {
+    return reliabilityService.checkReadiness();
+  });
+
+  app.get("/health/slo", async () => {
+    return {
+      success: true,
+      data: reliabilityService.getSloReport()
     };
   });
 
@@ -59,6 +81,7 @@ export function createApp() {
       api.register(copilotRoutes, { copilotService });
       api.register(automationsRoutes, { automationsService });
       api.register(revopsRoutes, { revopsService, prefix: "/revops" });
+      api.register(reliabilityRoutes, { reliabilityService });
     },
     { prefix: "/api/v1" }
   );

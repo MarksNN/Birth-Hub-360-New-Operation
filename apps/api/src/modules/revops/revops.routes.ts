@@ -24,7 +24,8 @@ export const revopsRoutes: FastifyPluginAsync<RevOpsRoutesOptions> = async (
   });
 
   // GET /api/v1/revops/subscription - Assinatura e cota de IA
-  fastify.get("/subscription", async (request) => {
+  fastify.get("/subscription", async (request, reply) => {
+    if (!request.tenant) return reply.status(401).send();
     const tenantId = request.tenant.id;
     const subscription = revopsService.getSubscription(tenantId);
     return {
@@ -36,7 +37,8 @@ export const revopsRoutes: FastifyPluginAsync<RevOpsRoutesOptions> = async (
   // GET /api/v1/revops/forecast - Previsão de receita com intervalos
   fastify.get<{
     Querystring: { period?: string };
-  }>("/forecast", async (request) => {
+  }>("/forecast", async (request, reply) => {
+    if (!request.tenant) return reply.status(401).send();
     const tenantId = request.tenant.id;
     const period = request.query.period || "2026-Q4";
     const forecast = revopsService.calculateForecast(tenantId, period);
@@ -55,6 +57,7 @@ export const revopsRoutes: FastifyPluginAsync<RevOpsRoutesOptions> = async (
       items?: BillingInvoiceItem[];
     };
   }>("/invoices/generate", async (request, reply) => {
+    if (!request.tenant) return reply.status(401).send();
     const tenantId = request.tenant.id;
     const idempotencyKey =
       request.headers["idempotency-key"] || request.body?.idempotencyKey;
@@ -110,7 +113,8 @@ export const revopsRoutes: FastifyPluginAsync<RevOpsRoutesOptions> = async (
   });
 
   // GET /api/v1/revops/invoices - Lista faturas do tenant
-  fastify.get("/invoices", async (request) => {
+  fastify.get("/invoices", async (request, reply) => {
+    if (!request.tenant) return reply.status(401).send();
     const tenantId = request.tenant.id;
     const invoices = revopsService.listInvoices(tenantId);
     return {
@@ -120,7 +124,8 @@ export const revopsRoutes: FastifyPluginAsync<RevOpsRoutesOptions> = async (
   });
 
   // GET /api/v1/revops/ledger - Extrato financeiro
-  fastify.get("/ledger", async (request) => {
+  fastify.get("/ledger", async (request, reply) => {
+    if (!request.tenant) return reply.status(401).send();
     const tenantId = request.tenant.id;
     const ledger = revopsService.getLedger(tenantId);
     return {

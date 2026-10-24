@@ -10,7 +10,7 @@
 - [x] **W07 — Agentes de IA:** Runtime seguro com níveis de autonomia A0–A4, Tool Registry, defesa anti-injeção e aprovações (`docs/copilot/`).
 - [x] **W08 — Automações e engajamento:** Cadências comerciais, gestão de consentimento LGPD/opt-out e geração de propostas (`docs/automations/`).
 - [x] **W09 — RevOps e billing:** Dashboards executivos, forecasting reconciliado, ledger de custos e faturamento idempotente (`docs/revops/`).
-- [ ] **W10 — Observabilidade e segurança:** Testes de carga, disaster recovery e drills de restore.
+- [x] **W10 — Observabilidade e segurança:** Testes de carga, disaster recovery, restore drills, STRIDE e SLOs (`docs/security/`).
 - [ ] **W11 — Homologação e pilotos:** Validação com clientes piloto.
 - [ ] **W12 — Lançamento (GA):** Readiness go/no-go e operação contínua.
 - [ ] **W13 — Expansão enterprise:** Mobilidade offline e voz avançada.
