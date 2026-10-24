@@ -380,6 +380,83 @@ export interface WorkflowRun {
 }
 
 // ==========================================
+// RevOps, Forecasting e Monetização (W09)
+// ==========================================
+
+export interface RevenueForecastCategory {
+  category: "commit" | "best_case" | "pipeline" | "closed_won";
+  amountBrl: number;
+  dealCount: number;
+}
+
+export interface RevenueForecast {
+  tenantId: TenantId;
+  period: string;
+  commitValue: number;
+  bestCaseValue: number;
+  pipelineTotal: number;
+  winProbabilityWeighted: number;
+  confidenceInterval: {
+    low: number;
+    mid: number;
+    high: number;
+  };
+  breakdownByStage: Record<DealStage, number>;
+  generatedAt: string;
+}
+
+export interface SubscriptionPlan {
+  slug: "starter" | "growth" | "enterprise";
+  name: string;
+  monthlyPriceBrl: number;
+  includedAiCreditsBrl: number;
+  maxUsers: number;
+  features: string[];
+}
+
+export interface TenantSubscription {
+  tenantId: TenantId;
+  planSlug: "starter" | "growth" | "enterprise";
+  status: "active" | "past_due" | "cancelled" | "trialing";
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  aiCreditsUsedBrl: number;
+  aiCreditsLimitBrl: number;
+  aiCreditsBalanceBrl: number;
+}
+
+export interface BillingInvoiceItem {
+  description: string;
+  quantity: number;
+  unitPriceBrl: number;
+  amountBrl: number;
+}
+
+export interface BillingInvoice {
+  id: string;
+  tenantId: TenantId;
+  invoiceNumber: string;
+  period: string;
+  amountBrl: number;
+  status: "draft" | "open" | "paid" | "void";
+  idempotencyKey: string;
+  items: BillingInvoiceItem[];
+  issuedAt: string;
+  paidAt?: string;
+  createdAt: string;
+}
+
+export interface RevOpsLedgerEntry {
+  id: string;
+  tenantId: TenantId;
+  category: "ai_inference" | "platform_subscription" | "add_on";
+  description: string;
+  amountBrl: number;
+  referenceId?: string;
+  createdAt: string;
+}
+
+// ==========================================
 // Health & API Standard Responses
 // ==========================================
 

@@ -14,6 +14,8 @@ import { CopilotService } from "./modules/copilot/copilot.service.js";
 import { copilotRoutes } from "./modules/copilot/copilot.routes.js";
 import { AutomationsService } from "./modules/automations/automations.service.js";
 import { automationsRoutes } from "./modules/automations/automations.routes.js";
+import { RevOpsService } from "./modules/revops/revops.service.js";
+import { revopsRoutes } from "./modules/revops/revops.routes.js";
 
 const START_TIME = Date.now();
 
@@ -28,6 +30,7 @@ export function createApp() {
   const intelligenceService = new IntelligenceService(crmService);
   const copilotService = new CopilotService();
   const automationsService = new AutomationsService(crmService);
+  const revopsService = new RevOpsService(crmService);
 
   app.register(cors, {
     origin: process.env.WEB_ORIGIN ?? "http://localhost:5173",
@@ -55,6 +58,7 @@ export function createApp() {
       api.register(intelligenceRoutes, { intelligenceService });
       api.register(copilotRoutes, { copilotService });
       api.register(automationsRoutes, { automationsService });
+      api.register(revopsRoutes, { revopsService, prefix: "/revops" });
     },
     { prefix: "/api/v1" }
   );
