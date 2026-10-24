@@ -8,9 +8,10 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/health.test.ts tests/identity.test.ts tests/crm.test.ts tests/integrations.test.ts tests/intelligence.test.ts"
+    "test": "tsx --test tests/health.test.ts tests/identity.test.ts tests/crm.test.ts tests/integrations.test.ts tests/intelligence.test.ts tests/copilot.test.ts"
   },
   "dependencies": {
+    "@birthub/ai-runtime": "*",
     "@birthub/contracts": "*",
     "@birthub/domain": "*",
     "@birthub/integration-kit": "*",

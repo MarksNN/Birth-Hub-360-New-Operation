@@ -10,6 +10,8 @@ import { IntegrationsService } from "./modules/integrations/integrations.service
 import { integrationsRoutes } from "./modules/integrations/integrations.routes.js";
 import { IntelligenceService } from "./modules/intelligence/intelligence.service.js";
 import { intelligenceRoutes } from "./modules/intelligence/intelligence.routes.js";
+import { CopilotService } from "./modules/copilot/copilot.service.js";
+import { copilotRoutes } from "./modules/copilot/copilot.routes.js";
 
 const START_TIME = Date.now();
 
@@ -22,6 +24,7 @@ export function createApp() {
   const crmService = new CrmService();
   const integrationsService = new IntegrationsService(crmService);
   const intelligenceService = new IntelligenceService(crmService);
+  const copilotService = new CopilotService();
 
   app.register(cors, {
     origin: process.env.WEB_ORIGIN ?? "http://localhost:5173",
@@ -47,6 +50,7 @@ export function createApp() {
       api.register(crmRoutes, { crmService });
       api.register(integrationsRoutes, { integrationsService });
       api.register(intelligenceRoutes, { intelligenceService });
+      api.register(copilotRoutes, { copilotService });
     },
     { prefix: "/api/v1" }
   );

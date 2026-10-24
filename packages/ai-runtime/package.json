@@ -1,0 +1,18 @@
+{
+  "name": "@birthub/ai-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@birthub/contracts": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0"
+  }
+}
