@@ -8,7 +8,7 @@
 - [x] **W05 — Integrações e sincronização:** Bitrix24 connector, Outbox transacional com DLQ, Cursors incrementais, prevenção de replay e concorrência (`docs/integrations/`).
 - [x] **W06 — Inteligência comercial:** ICP Fit explicável, sinais operacionais de Radar, avaliação de qualidade de dados e evals rotulados (`docs/intelligence/`).
 - [x] **W07 — Agentes de IA:** Runtime seguro com níveis de autonomia A0–A4, Tool Registry, defesa anti-injeção e aprovações (`docs/copilot/`).
-- [ ] **W08 — Automações e engajamento:** Cadências, playbooks e geração de propostas.
+- [x] **W08 — Automações e engajamento:** Cadências comerciais, gestão de consentimento LGPD/opt-out e geração de propostas (`docs/automations/`).
 - [ ] **W09 — RevOps e billing:** Dashboards executivos, ledger de custos e cobrança SaaS.
 - [ ] **W10 — Observabilidade e segurança:** Testes de carga, disaster recovery e drills de restore.
 - [ ] **W11 — Homologação e pilotos:** Validação com clientes piloto.

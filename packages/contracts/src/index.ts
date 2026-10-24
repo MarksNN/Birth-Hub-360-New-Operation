@@ -264,7 +264,7 @@ export interface Signal {
   severity: SignalSeverity;
   title: string;
   explanation: string;
-  confidence: number; // 0.0 a 1.0
+  confidence: number;
   recommendedAction: string;
   provenance: {
     modelVersion: string;
@@ -282,9 +282,9 @@ export type ScoreGrade = "A" | "B" | "C" | "D" | "unknown";
 
 export interface ScoreFactor {
   feature: string;
-  impact: number; // -1.0 a +1.0
+  impact: number;
   explanation: string;
-  confidence: number; // 0.0 a 1.0
+  confidence: number;
 }
 
 export interface ScoreSnapshot {
@@ -293,7 +293,7 @@ export interface ScoreSnapshot {
   entityType: "company" | "deal";
   entityId: string;
   scoreType: ScoreType;
-  scoreValue: number | null; // null se unknown
+  scoreValue: number | null;
   grade: ScoreGrade;
   factors: ScoreFactor[];
   modelVersion: string;
@@ -302,9 +302,9 @@ export interface ScoreSnapshot {
 
 export interface DataQualityReport {
   tenantId: TenantId;
-  overallScore: number; // 0 a 100
-  completenessRate: number; // 0 a 1
-  freshnessRate: number; // 0 a 1
+  overallScore: number;
+  completenessRate: number;
+  freshnessRate: number;
   issuesFound: number;
   unverifiedSourcesCount: number;
   evaluatedAt: string;
@@ -319,6 +319,64 @@ export interface RadarSummary {
   pipelineAtRiskValue: number;
   qualityIndex: number;
   generatedAt: string;
+}
+
+// ==========================================
+// Automações, Cadências e Consentimento (W08)
+// ==========================================
+
+export interface CadenceStep {
+  stepNumber: number;
+  delayDays: number;
+  actionType: "create_task" | "generate_draft" | "notify_rep";
+  title: string;
+  isAutomated: boolean;
+}
+
+export interface CadenceWorkflow {
+  id: string;
+  tenantId: TenantId;
+  name: string;
+  triggerType: "deal_stagnant" | "new_lead" | "stage_change";
+  steps: CadenceStep[];
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface ConsentRecord {
+  id: string;
+  tenantId: TenantId;
+  contactId: string;
+  channel: "email" | "phone" | "whatsapp";
+  status: "opt_in" | "opt_out";
+  source: string;
+  recordedAt: string;
+}
+
+export interface ProposalDocument {
+  id: string;
+  tenantId: TenantId;
+  dealId: string;
+  title: string;
+  templateId: string;
+  contentMarkdown: string;
+  totalValue: number;
+  currency: string;
+  status: "draft" | "under_review" | "approved" | "sent" | "signed" | "rejected";
+  generatedBy: UserId;
+  approvedBy?: UserId;
+  createdAt: string;
+}
+
+export interface WorkflowRun {
+  id: string;
+  tenantId: TenantId;
+  workflowId: string;
+  entityId: string;
+  currentStep: number;
+  status: "running" | "paused" | "completed" | "cancelled_opt_out";
+  startedAt: string;
+  completedAt?: string;
 }
 
 // ==========================================
