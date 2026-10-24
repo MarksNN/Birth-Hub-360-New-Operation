@@ -243,6 +243,85 @@ export interface SyncResult {
 }
 
 // ==========================================
+// Inteligência Comercial e Radar (W06)
+// ==========================================
+
+export type SignalType =
+  | "stagnation_risk"
+  | "deal_slippage"
+  | "engagement_drop"
+  | "icp_mismatch"
+  | "high_intent";
+
+export type SignalSeverity = "low" | "medium" | "high" | "critical";
+
+export interface Signal {
+  id: string;
+  tenantId: TenantId;
+  entityType: "deal" | "company" | "contact";
+  entityId: string;
+  signalType: SignalType;
+  severity: SignalSeverity;
+  title: string;
+  explanation: string;
+  confidence: number; // 0.0 a 1.0
+  recommendedAction: string;
+  provenance: {
+    modelVersion: string;
+    computedAt: string;
+    rulesTriggered: string[];
+  };
+  isDismissed: boolean;
+  dismissedBy?: UserId;
+  dismissedAt?: string;
+  createdAt: string;
+}
+
+export type ScoreType = "icp_fit" | "win_probability" | "data_quality";
+export type ScoreGrade = "A" | "B" | "C" | "D" | "unknown";
+
+export interface ScoreFactor {
+  feature: string;
+  impact: number; // -1.0 a +1.0
+  explanation: string;
+  confidence: number; // 0.0 a 1.0
+}
+
+export interface ScoreSnapshot {
+  id: string;
+  tenantId: TenantId;
+  entityType: "company" | "deal";
+  entityId: string;
+  scoreType: ScoreType;
+  scoreValue: number | null; // null se unknown
+  grade: ScoreGrade;
+  factors: ScoreFactor[];
+  modelVersion: string;
+  computedAt: string;
+}
+
+export interface DataQualityReport {
+  tenantId: TenantId;
+  overallScore: number; // 0 a 100
+  completenessRate: number; // 0 a 1
+  freshnessRate: number; // 0 a 1
+  issuesFound: number;
+  unverifiedSourcesCount: number;
+  evaluatedAt: string;
+}
+
+export interface RadarSummary {
+  tenantId: TenantId;
+  monitoredDealsCount: number;
+  stagnantDealsCount: number;
+  activeSignalsCount: number;
+  criticalSignalsCount: number;
+  pipelineAtRiskValue: number;
+  qualityIndex: number;
+  generatedAt: string;
+}
+
+// ==========================================
 // Health & API Standard Responses
 // ==========================================
 

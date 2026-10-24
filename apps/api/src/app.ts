@@ -8,6 +8,8 @@ import { CrmService } from "./modules/crm/crm.service.js";
 import { crmRoutes } from "./modules/crm/crm.routes.js";
 import { IntegrationsService } from "./modules/integrations/integrations.service.js";
 import { integrationsRoutes } from "./modules/integrations/integrations.routes.js";
+import { IntelligenceService } from "./modules/intelligence/intelligence.service.js";
+import { intelligenceRoutes } from "./modules/intelligence/intelligence.routes.js";
 
 const START_TIME = Date.now();
 
@@ -19,6 +21,7 @@ export function createApp() {
   const identityService = new IdentityService();
   const crmService = new CrmService();
   const integrationsService = new IntegrationsService(crmService);
+  const intelligenceService = new IntelligenceService(crmService);
 
   app.register(cors, {
     origin: process.env.WEB_ORIGIN ?? "http://localhost:5173",
@@ -43,6 +46,7 @@ export function createApp() {
       api.register(identityRoutes, { identityService });
       api.register(crmRoutes, { crmService });
       api.register(integrationsRoutes, { integrationsService });
+      api.register(intelligenceRoutes, { intelligenceService });
     },
     { prefix: "/api/v1" }
   );
